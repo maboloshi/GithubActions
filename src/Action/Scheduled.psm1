@@ -18,6 +18,9 @@ function Initialize-Scheduled {
         'Upstream'     = "${REPOSITORY}:${_BRANCH}"
         'OriginBranch' = $_BRANCH
         'Push'         = $true
+        # 'Request'      = $true
+        'Bot'          = $true
+        'TOKEN'        = $env:GITHUB_TOKEN
         'SkipUpdated'  = ($env:SKIP_UPDATED -eq '1')
     }
     if ($env:SPECIAL_SNOWFLAKES) { $params.Add('SpecialSnowflakes', ($env:SPECIAL_SNOWFLAKES -split ',')) }
@@ -28,7 +31,7 @@ function Initialize-Scheduled {
         $env:SCOOP_GH_TOKEN = $env:GITHUB_TOKEN
     }
 
-    & (Join-Path $BINARIES_FOLDER 'auto-pr.ps1') @params
+    & (Join-Path $PSScriptRoot '..\..\bin\auto-pr.ps1') @params
     # TODO: Post some comment?? Or other way how to publish logs for non collaborators.
 
     Write-Log 'Scheduled finished'
