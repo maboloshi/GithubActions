@@ -1,0 +1,10 @@
+version: "1"
+rules:
+  - base: main
+    upstream: ScoopInstaller:main
+    mergeMethod: rebase
+    mergeUnstable: false
+    assignees:
+      - maboloshi
+    conflictReviewers:
+      - maboloshi
