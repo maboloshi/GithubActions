@@ -57,7 +57,7 @@ param(
         }
         $true
     })]
-    [String] $OriginRepoNwo = $env:GITHUB_REPOSITORY -or ((git remote get-url origin -replace '\.git').Split('/')[-2,-1] -join '/'),
+    [String] $OriginRepoNwo,
     [String] $OriginBranch = 'master',
     [String] $App = '*',
     [String] $CommitMessageFormat = '<app>: Update to version <version>',
@@ -78,6 +78,10 @@ param(
     [Switch] $SkipUpdated,
     [Switch] $ThrowError
 )
+
+if (-not $OriginRepoNwo) {
+    $OriginRepoNwo = if ($env:GITHUB_REPOSITORY) { $env:GITHUB_REPOSITORY } else { (git remote get-url origin -replace '\.git').Split('/')[-2,-1] -join '/' }
+}
 
 . (Join-Path $env:SCOOP_HOME "lib\core.ps1")
 . (Join-Path $env:SCOOP_HOME "lib\manifest.ps1")
